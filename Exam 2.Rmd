@@ -1,0 +1,112 @@
+---
+title: "Untitled"
+output: html_document
+date: "2024-11-21"
+---
+load("brfss")
+view(brfss_sm)
+    
+#question 1
+y1  <-  12.18 + -0.308 * 25 + 0.0048 * 25^2 + -0.00003 * 25^3
+
+print(y1)
+#7.01125
+y2  <-  12.18 + -0.308 * 45 + 0.0048 * 45^2 + -0.00003 * 45^3
+print(y2)
+#5.30625
+
+```{r setup, include=FALSE}
+library(ggplot2)
+library(tidyverse)
+library(haven)
+library(ggthemes)
+
+
+#question 2
+subgroup <- brfss_sm %>% filter ((MentalHealth == 1 ))
+
+ols_model1 <- lm(MentalHealth ~ AgeBracket + Educ + IncomeBracket, data = subgroup)
+
+summary(ols_model1)
+
+```
+
+#question 3 
+
+subgroup2 <- brfss_sm %>% filter ((MentalHealth == 1 )  & (Gender == "Female") & (Veteran == "Yes a veteran"))
+
+# I choose this subgroup to see if women experience more mental illness in there life and veterans who are tarumaed by their experience.
+
+```{r cars}
+#Question 4
+ols_model2 <- lm(MentalHealth_01 ~ Veteran + Educ + IncomeBracket,data = subgroup)
+
+summary(ols_model2)
+
+
+
+
+#a. These variables of being Vetern, education and IncomeBracket are important in the well being of mental health. 
+
+#b. These estimates seem unplausble as they are all zero or null. 
+
+#c. 
+
+#d. 
+pred_vals <- predict(ols_model2, subgroup, type = "response")
+pred_model_logit1 <- (pred_vals > 0.5)
+table(pred = pred_model_logit1, true = subgroup$MentalHealth)
+
+#       true
+#pred        1
+ # FALSE 11132
+
+#e. These model made 11132 type II errors.  
+
+
+```
+
+## Question 5 
+model_logit1 <- glm(MentalHealth_01 ~ Educ + EmotionalSupport + Anxiety, data = subgroup, family = binomial)
+summary(model_logit1)
+
+pred_vals <- predict(model_logit1, subgroup, type = "response")
+pred_model_logit1 <- (pred_vals > 0.3)
+table(pred = pred_model_logit1, true = subgroup$MentalHealth)
+
+
+
+#a. I choose the variables of Emotional Support, Anxiety, and Education as predictors they are contribute to the well being of someone's mental health. Education and Emotional support is the only exgeonous variables as they occur outside the control of someone's life. 
+
+#B. 
+
+#These estimates seem plasusible as they are large enough to effect the outcome so they are stastic significant. 
+
+#c. 
+library(car)
+linearHypothesis(model_logit1, c("Anexiety", "EmotionalSupport"))
+
+#d. 
+    #true
+#pred       1
+#  TRUE 13584
+
+#e.
+#These model did not make any errors. 
+
+#F. The difference between the ols and the logit is that the ols is more general with the variables as they go over all the variables while the logit is more specfic on the variables. 
+```{}
+
+library(spikeslab)
+library(standardize)
+require("standardize")
+set.seed(54321)
+model1_spikeslab <- spikeslab(sobj$formula, data = sobj$data)
+summary(model1_spikeslab)
+print(model1_spikeslab)
+plot(model1_spikeslab)
+
+
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

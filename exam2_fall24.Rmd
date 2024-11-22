@@ -1,0 +1,54 @@
+---
+title: "Exam 2"
+output: html_document
+---
+
+### Econ B2000, MA Econometrics
+### Kevin R Foster, the Colin Powell School at the City College of New York, CUNY
+### Fall 2024
+
+*The questions are worth 120 points.  You have 120 minutes to do the exam, one point per minute.*
+*All answers should submitted electronically. Please submit all relevant computer files as a Slack message to me (perhaps just a message with GitHub link). I prefer .Rmd files __along with knit output,__ md or html is fine. Graphs should be 'export'. Or you can save output and code as pdf or rtf if you must.*
+*You may refer to your books, notes, calculator, computer, etc.  The exam is "open book."*
+*However, you must not refer to anyone else, either in person or electronically, during the exam time. For instance, since these exam questions are newly created, posting questions or copying answers on Discord or WhatsApp groups or online homework helping sites or forums (such as Chegg, Yahoo answers or others) is a violation. Don't upload to public GitHub site until end of exam.*
+*You must do all work on your own.  Cheating is harshly penalized.*
+*Good luck.  Stay cool.*
+
+1. (10 points) This does not require any work in R (although you might find it convenient, I'm not stopping you). It uses a particular subset of the data that you can't replicate, you should be able to answer the question with just the information provided. I estimated a simple regression where people's reported mental health, Y, was a function of their age, including squared and cubed terms. Y is the number of days, of last 30, where person's mental health was poor.
+
+$$ Y = \beta_{0} + \beta_{1} Age + \beta_{2} Age^{2} + \beta_{3} Age^{3} + \epsilon  $$
+The estimated coefficients are 
+$$ \hat{\beta_{0}} = 12.18 $$
+$$ \hat{\beta_{1}} = -0.308 $$ 
+$$ \hat{\beta_{2}} = 0.0048 $$ 
+$$ \hat{\beta_{3}} = -0.00003 $$ 
+
+What is the prediction for a person who is 25 years old? For a person who is 45 years old?
+
+### Background
+I provide a small version of the BRFSS data. We'll look at some of the determinants of mental health. We'll focus on the variable, `MentalHealth`, which answers the question, "Now thinking about your mental health, which includes stress, depression, and problems with emotions, for how many days during the past 30 days was your mental health not good?"
+
+2. (15 points) First with the continuous version of the measure, would like to understand the relative importance of income and education in predicting mental health. Run a regression of the form, `ols_model1 <- lm(MentalHealth ~ AgeBracket + Educ + IncomeBracket)` and perform a hypothesis test for the joint hypothesis that all of the coefficients on education are zero. What is the p-value? What about another joint hypothesis that all the coefficients on income are zero? Explain.
+
+3. (10 points) Select a subset of the data that you would like to analyze. Explain your choice and provide some summary statistics of interesting variables.
+
+I created a 0/1 version of Mental Health, `MentalHealth_01 <- (MentalHealth > 3)` which takes a value of 1 if a person reports 4 or more days of the past month with poor mental health, zero otherwise.
+
+4. (25 points) Estimate a OLS model with the y-variable as `MentalHealth_01`. Perhaps include some interaction effects.
+  a. Explain what variables you choose to use as predictors. Do they seem exogenous? Explain the interactions.
+  b. Do your estimates seem plausible? Are the estimates each statistically significant?
+  c. Construct a joint test of whether a reasonable set of coefficients (such as education or income dummies) are all zero.
+  d. What are the predicted probabilities for a few particular groups?
+  e. How many Type I and Type II errors are made by the model?
+
+5. (30 points) Estimate a  logit model, for the outcome variable `MentalHealth_01`, within your subsample.
+  a. Explain what variables you choose to use as predictors. Do they seem exogenous? 
+  b. Do your estimates seem plausible? Are the estimates each statistically significant?
+  c. Construct a joint test of whether a reasonable set of coefficients are all zero.
+  d. What are the predicted probabilities for a few particular groups?
+  e. How many Type I and Type II errors are made by the model?
+  f. How does this logit compare with the OLS previous?
+  
+6. (30 points) Estimate one or more additional models with other methods (not OLS or logit) to predict mental health. Explain as in previous. Compare the different models and make judgments about strengths and weaknesses.
+
+
